@@ -8,24 +8,50 @@ st.set_page_config(
     layout="centered"
 )
 
-# Custom CSS styling
+# Navy Blue Theme CSS
 st.markdown("""
 <style>
+body {
+    background-color: #0b1f3a;
+}
+
 .main {
-    background-color: #0f172a;
+    background-color: #0b1f3a;
     color: white;
 }
-.title {
+
+/* Title */
+h1 {
+    color: #38bdf8;
     text-align: center;
     font-size: 40px;
-    color: #00ffcc;
     font-weight: bold;
 }
-.card {
-    background-color: #1e293b;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0px 0px 15px #00ffcc;
+
+/* Card style */
+.stApp {
+    background: linear-gradient(135deg, #0b1f3a, #102a4c);
+}
+
+/* Inputs */
+.stSelectbox, .stNumberInput, .stSlider {
+    color: white;
+}
+
+/* Button */
+.stButton > button {
+    background-color: #38bdf8;
+    color: black;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+}
+
+.stButton > button:hover {
+    background-color: #0ea5e9;
+    color: white;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -35,22 +61,18 @@ model = pickle.load(open("car_price.pkl", "rb"))
 le = pickle.load(open("label_encoder.pkl", "rb"))
 
 # Title
-st.markdown('<div class="title">🚗 Car Price Prediction App</div>', unsafe_allow_html=True)
+st.title("🚗 Car Price Prediction App")
 
 st.write("---")
 
-# Card UI
-st.markdown('<div class="card">', unsafe_allow_html=True)
-
+# Inputs
 car_class = st.selectbox("🚘 Select Car Class", le.classes_)
 
 mileage = st.number_input("⛽ Enter Mileage", min_value=0)
 
 age = st.slider("📅 Select Car Age", 0, 7)
 
-st.markdown("</div>", unsafe_allow_html=True)
-
-# Button
+# Prediction
 if st.button("💰 Predict Price"):
 
     car_class_encoded = le.transform([car_class])[0]
